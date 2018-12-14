@@ -6,7 +6,7 @@ Calculadora simples de Fator de Correção feita em Java.
 
 //English
 
-A simple calculator of correction factor(FOOD) made in Java.
+A simple calculator of correction factor (FOR FOOD) made in Java.
 
 //PT-BR 
 
