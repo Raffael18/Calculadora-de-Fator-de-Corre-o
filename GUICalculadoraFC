@@ -1,0 +1,112 @@
+package calcularfc;
+
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+public class GUICalculadoraFC extends JFrame {
+
+    Container janela = getContentPane();
+    JLabel labelPesoBruto = new JLabel("Digite o peso bruto:");
+    JLabel labelPesoLiquido = new JLabel("Digite o peso líquido:");
+    JLabel labelResultado = new JLabel("Fator de correção: ");
+    JLabel labelResultado2 = new JLabel("Valor com a correção: ");
+    JTextField campoPesoBruto = new JFormattedTextField();
+    JTextField campoPesoLiquido = new JFormattedTextField();
+    JTextArea campoResultado = new JTextArea();
+    JTextArea campoResultado2 = new JTextArea();
+    JButton botao = new JButton("Calcular");
+
+    public void montarTela() {
+        setLayout(null);
+        setTitle("Fator de Correção");
+        labelPesoBruto.setBounds(10, 40, 160, 20);
+        labelPesoLiquido.setBounds(10, 80, 160, 50);
+        labelResultado.setBounds(10, 300, 160, 20);
+        labelResultado2.setBounds(10, 350, 160, 20);
+        campoPesoBruto.setBounds(10, 60, 100, 20);
+        campoPesoLiquido.setBounds(10, 120, 100, 20);
+        campoResultado.setBounds(10, 320, 100, 20);
+        campoResultado2.setBounds(10, 370, 100, 20);
+        botao.setBounds(145, 200, 100, 20);
+
+        janela.add(labelPesoBruto);
+        janela.add(labelPesoLiquido);
+        janela.add(labelResultado);
+        janela.add(labelResultado2);
+        janela.add(campoPesoBruto);
+        janela.add(campoPesoLiquido);
+        janela.add(campoResultado);
+        janela.add(campoResultado2);
+        janela.add(botao);
+
+        botao.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                CalcularFC();
+            }
+        });
+
+        setSize(420, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+
+    }
+
+    public void CalcularFC() {
+        double PesoLiquido;
+        double PesoBruto;
+        double formula, formula2;
+        String msg = "";
+        String msg1 = "";
+
+        try {
+            PesoBruto = Double.parseDouble(campoPesoBruto.getText());
+            PesoLiquido = Double.parseDouble(campoPesoLiquido.getText());
+            formula = PesoBruto / PesoLiquido;
+            formula2 = PesoBruto * formula;
+
+            if (PesoBruto < 0) {
+                msg = "O valor do Peso Bruto ou Peso Líquido está negativo";
+                JOptionPane.showMessageDialog(getContentPane(), msg);
+                throw new Exception("Erro!");
+            }
+            if (PesoLiquido < 0) {
+                msg = "O valor do Peso Bruto ou Peso Líquido está negativo";
+                JOptionPane.showMessageDialog(getContentPane(), msg);
+                throw new Exception("Erro!");
+            }
+            String resultado1 = String.format("%.2f", formula);
+            campoResultado.setText(resultado1);
+            String resultado2 = String.format("%.2f", formula2);
+            campoResultado2.setText(resultado2);
+
+            if (formula > 1) {
+                msg1 = "Houve perda no peso do alimento";
+                JOptionPane.showMessageDialog(getContentPane(), msg1);
+            }
+            if (formula == 1) {
+                msg1 = "Não houve perda de peso do alimento";
+                JOptionPane.showMessageDialog(getContentPane(), msg1);
+            }
+            if (formula < 1) {
+                msg1 = "Valor Inválido";
+                campoResultado.setText("0");
+                campoResultado2.setText("0");
+                JOptionPane.showMessageDialog(getContentPane(), msg1);
+            }
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+    }
+
+}
